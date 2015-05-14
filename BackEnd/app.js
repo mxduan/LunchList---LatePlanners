@@ -64,7 +64,7 @@ app.delete('/list/:listName/:entryName', function (req, res) { //deletes a perso
   res.sendStatus(204); //deletion complete
 });
 
-app.delete('/list/:subList', functions (req, res){ //deletes an entire sublist
+app.delete('/list/:subList', function (req, res){ //deletes an entire sublist
   res.sendStatus(204);
 });
 
