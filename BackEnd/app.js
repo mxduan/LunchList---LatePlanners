@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var underscore = require('underscore');
 
 var app = express();
 app.use(bodyParser.json());
@@ -16,13 +17,15 @@ app.get('/list', function (req, res) {
   res.json(lists);
 });
 
-// accept POST request on the homepage
-/**app.post('/list/*', function (req, res) {
-	var obj = JSON.parse(lists);
-	obj[req.data].push(req.data);
-	lists = JSON.stringify(obj);
- 	res.send('Got a POST request');
-});*/
+// accept POST request on the homepage TODO
+app.post('/list/*', function (req, res) {
+  var obj = {};
+  obj.listname = req.body.listname;
+  obj.people = [];
+  lists.push(obj);
+
+  res.sendStatus(200);
+});
 
 app.post('/list', function (req, res) {
   var obj = {};
