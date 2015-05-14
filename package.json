@@ -4,6 +4,7 @@
   "description": "Lunch planner!",
   "main": "index.html",
   "dependencies": {
+    "express": "^4.12.3"
   },
   "devDependencies": {},
   "scripts": {
