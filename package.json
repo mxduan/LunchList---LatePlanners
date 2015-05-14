@@ -1,0 +1,26 @@
+{
+  "name": "LunchList---LatePlanners",
+  "version": "1.0.0",
+  "description": "Lunch planner!",
+  "main": "index.html",
+  "dependencies": {
+    "bootstrap": "^3.3.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "no test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mxduan/LunchList---LatePlanners.git"
+  },
+  "keywords": [
+    "lunch"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mxduan/LunchList---LatePlanners/issues"
+  },
+  "homepage": "https://github.com/mxduan/LunchList---LatePlanners"
+}
