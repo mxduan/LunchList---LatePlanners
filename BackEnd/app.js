@@ -6,9 +6,7 @@ app.use(bodyParser.json());
 app.use(express.static('../public'));
 
 var path = require('path');
-var lists = [
-			{"Focaccia":["roger", "mike"]}
-			];
+var lists = [{ name: 'Focaccia', people: [ 'roger', 'mike' ] }];
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname + '/../public/index.html'));
@@ -28,7 +26,8 @@ app.get('/list', function (req, res) {
 
 app.post('/list', function (req, res) {
   var obj = {};
-  obj[req.body.name] = [];
+  obj.name = req.body.name;
+  obj.people = [];
   lists.push(obj);
 
   res.sendStatus(200);
