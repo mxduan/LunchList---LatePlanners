@@ -1,24 +1,44 @@
 var addSublist = function(listName, success, error) {
   $.ajax({
     method: 'POST',
-    url: '/list',
-    data: {
-      name: listName
-    },
+    url: 'list/' + listName,
     success: success,
     error: error
   });
 };
 
-var addToList = function(listName, entryName, success, error) {
+var removeSublist = function(listName, success, error) {
+  $.ajax({
+    method: 'DELETE',
+    url: 'list/' + listName,
+    success: success,
+    error: error
+  });
+};
+
+var addToSublist = function(listName, entryName, success, error) {
   $.ajax({
     method: 'POST',
-    url: 'list/addEntryToList',
-    data: {
-      entry: entryName,
-      list: listName
-    },
+    url: 'list/' + listName + '/' + entryName,
     success: sucess,
+    error: error
+  });
+};
+
+var deleteFromSublist = function(listName, entryName, success, error) {
+  $.ajax({
+    method: 'DELETE',
+    url: 'list/' + listName + '/' + entryName,
+    success: success,
+    error: error
+  });
+};
+
+var getSublist = function(listName, success, error) {
+  $.ajax({
+    method: 'GET',
+    url: 'list/' + listName,
+    success: success,
     error: error
   });
 };
@@ -26,7 +46,7 @@ var addToList = function(listName, entryName, success, error) {
 var getList = function(success, error) {
   $.ajax({
     method: 'GET',
-    url: '/list',
+    url: 'list',
     success: success,
     error: error
   });
