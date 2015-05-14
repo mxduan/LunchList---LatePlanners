@@ -17,6 +17,11 @@ app.get('/list', function (req, res) {
   res.json(lists);
 });
 
+app.get('/list/:listName', function (req, res) {
+  var listName = req.params.listName;
+  res.json(lists.listName);
+});
+
 // accept POST request on the homepage
 app.post('/list/:listName/:entryName', function (req, res) {
   var personName = req.params.entryName;
@@ -37,18 +42,30 @@ app.post('/list/:listName/:entryName', function (req, res) {
   res.sendStatus(200);
 });
 
-app.post('/list', function (req, res) {
+app.post('/list/:entryName', function (req, res) {
   var obj = {};
-  obj.name = req.body.name;
+  obj.name = req.params.entryName;
   obj.people = [];
   lists.push(obj);
 
   res.sendStatus(200);
 });
 
-app.delete('/list/:listName/:entryName', function (req, res) {
-  res.send('You want to delete who now? You're not a good person.);
+app.delete('/list/:listName/:entryName', function (req, res) { //deletes a persons name
+  //res.send('You want to delete who now? You're not a good person.);
+  var listName = req.params.listName;
+  var entryName = req.params.entryName;
+  var listNames = _.pluck(lists, 'name');
+  var listNameIndexInLists = _.indexOf(lists, listName);		
+  if(restaurantLocationInList !== -1 )
+  {
+  	 lists[listNameIndexInLists].people.splice(_.indexOf(lists[listNameIndexInLists].people, entryName),-1); //TODO more error checking
+  }
   res.sendStatus(204); //deletion complete
+});
+
+app.delete('/list/:subList', functions (req, res){ //deletes an entire sublist
+  res.sendStatus(204);
 });
 
 var server = app.listen(3000, function () {
