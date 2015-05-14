@@ -65,6 +65,14 @@ app.delete('/list/:listName/:entryName', function (req, res) { //deletes a perso
 });
 
 app.delete('/list/:subList', function (req, res){ //deletes an entire sublist
+  var listName = req.params.listName;
+  var entryName = req.params.entryName;
+  var listNames = _.pluck(lists, 'name');
+  var listNameIndexInLists = _.indexOf(lists, listName);		
+  if(restaurantLocationInList !== -1 )
+  {
+  	 lists.splice(listNameIndexInLists,-1);
+  }
   res.sendStatus(204);
 });
 
