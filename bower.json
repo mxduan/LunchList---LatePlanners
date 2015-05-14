@@ -1,0 +1,25 @@
+{
+  "name": "LunchList---LatePlanners",
+  "version": "1.0.0",
+  "homepage": "https://github.com/mxduan/LunchList---LatePlanners",
+  "authors": [
+    "Kjetil Pettersen <kpettersen@factset.com>"
+  ],
+  "description": "lunch planner",
+  "main": "index.html",
+  "keywords": [
+    "lunch"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "bootstrap": "~3.3.4"
+  }
+}

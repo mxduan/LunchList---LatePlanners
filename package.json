@@ -4,7 +4,6 @@
   "description": "Lunch planner!",
   "main": "index.html",
   "dependencies": {
-    "bootstrap": "^3.3.4"
   },
   "devDependencies": {},
   "scripts": {
