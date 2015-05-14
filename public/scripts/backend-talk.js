@@ -22,7 +22,7 @@ var addToList = function(listId, entryName, success, error) {
   });
 };
 
-var getList = function() {
+var getList = function(success, error) {
   $.ajax({
     method: 'GET',
     url: '/list',
