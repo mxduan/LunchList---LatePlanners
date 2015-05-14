@@ -17,13 +17,19 @@ app.get('/list', function (req, res) {
   res.json(lists);
 });
 
-// accept POST request on the homepage TODO
-app.post('/list/*', function (req, res) {
-  var obj = {};
-  obj.listname = req.body.listname;
-  obj.people = [];
-  lists.push(obj);
+// accept POST request on the homepage
+app.post('/list/addEntryToList', function (req, res) {
+  var personName = req.body.entry;
+  var restaurantName = req.body.list;
+  var restaurants = _.pluck(lists, 'name');
+  var restaurantLocationInList = _.indexOf(restaurants, restaurantName);		
+  if(restaurantLocationInList === -1 )
+  {
+  	res.sendStatus(200);
+  	return;
+  }
 
+  lists[restaurantLocationInList].people.push(personName);
   res.sendStatus(200);
 });
 
