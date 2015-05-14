@@ -18,13 +18,17 @@ app.get('/list', function (req, res) {
 });
 
 // accept POST request on the homepage
-app.post('/list/addEntryToList', function (req, res) {
-  var personName = req.body.entry;
-  var restaurantName = req.body.list;
+app.post('/list/:listName/:entryName', function (req, res) {
+  var personName = req.params.entryName;
+  var restaurantName = req.params.listName;
   var restaurants = _.pluck(lists, 'name');
   var restaurantLocationInList = _.indexOf(restaurants, restaurantName);		
   if(restaurantLocationInList === -1 )
   {
+  	var obj = {};
+	obj.name = restaurantName;
+  	obj.people = [personName];
+  	lists.push(obj);
   	res.sendStatus(200);
   	return;
   }
@@ -40,6 +44,11 @@ app.post('/list', function (req, res) {
   lists.push(obj);
 
   res.sendStatus(200);
+});
+
+app.delete('/list/:listName/:entryName', function (req, res) {
+  res.send('You want to delete who now? You're not a good person.);
+  res.sendStatus(204); //deletion complete
 });
 
 var server = app.listen(3000, function () {
