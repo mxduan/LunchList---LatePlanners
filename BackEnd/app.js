@@ -1,6 +1,8 @@
 var express = require('express');
+var bodyParser = require('body-parser');
+
 var app = express();
-app.use(express.bodyParser());
+app.use(bodyParser.json());
 
 var path = require('path');
 var lists = [
@@ -8,10 +10,10 @@ var lists = [
 			];
 
 app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname + '/index.html'));
+  res.sendFile(path.join(__dirname + '/../public/index.html'));
 });
 
-app.get('/list/*', function (req, res) {
+app.get('/list', function (req, res) {
   res.json(lists);
 });
 
@@ -24,7 +26,11 @@ app.get('/list/*', function (req, res) {
 });*/
 
 app.post('/list', function (req, res) {
-  lists.push({req.body.name:[]});
+  var obj = {};
+  obj[req.body.name] = [];
+  lists.push(obj);
+
+  res.sendStatus(200);
 });
 
 var server = app.listen(3000, function () {
