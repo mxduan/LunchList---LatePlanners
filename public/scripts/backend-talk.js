@@ -1,7 +1,7 @@
 var addSublist = function(listName, success, error) {
   $.ajax({
     method: 'POST',
-    url: '/list/',
+    url: '/list',
     data: {
       name: listName
     },
@@ -10,12 +10,13 @@ var addSublist = function(listName, success, error) {
   });
 };
 
-var addToList = function(listId, entryName, success, error) {
+var addToList = function(listName, entryName, success, error) {
   $.ajax({
     method: 'POST',
-    url: 'list/' + listId,
+    url: 'list/addEntryToList',
     data: {
-      name: entryName
+      entry: entryName,
+      list: listName
     },
     success: sucess,
     error: error
