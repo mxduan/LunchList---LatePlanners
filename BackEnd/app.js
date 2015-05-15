@@ -56,7 +56,7 @@ app.delete('/list/:listName/:entryName', function (req, res) { //deletes a perso
   var listName = req.params.listName;
   var entryName = req.params.entryName;
   var listNames = _.pluck(lists, 'name');
-  var listNameIndexInLists = _.indexOf(lists, listName);		
+  var listNameIndexInLists = _.indexOf(listNames, listName);		
   if(listNameIndexInLists !== -1 )
   {
   	 lists[listNameIndexInLists].people.splice(_.indexOf(lists[listNameIndexInLists].people, entryName),-1); //TODO more error checking
@@ -68,7 +68,7 @@ app.delete('/list/:subList', function (req, res){ //deletes an entire sublist
   var listName = req.params.listName;
   var entryName = req.params.entryName;
   var listNames = _.pluck(lists, 'name');
-  var listNameIndexInLists = _.indexOf(lists, listName);		
+  var listNameIndexInLists = _.indexOf(listNames, listName);		
   if(listNameIndexInLists !== -1 )
   {
   	 lists.splice(listNameIndexInLists,-1);
