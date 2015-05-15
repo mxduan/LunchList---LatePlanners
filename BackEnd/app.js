@@ -65,14 +65,9 @@ app.delete('/list/:listName/:entryName', function (req, res) { //deletes a perso
 });
 
 app.delete('/list/:subList', function (req, res){ //deletes an entire sublist
-  var listName = req.params.listName;
-  var entryName = req.params.entryName;
-  var listNames = _.pluck(lists, 'name');
-  var listNameIndexInLists = _.indexOf(listNames, listName);		
-  if(listNameIndexInLists !== -1 )
-  {
-  	 lists.splice(listNameIndexInLists,-1);
-  }
+  var listName = req.params.subList;
+  console.log("we're about to do it");
+  lists = _.reject(lists, function(object){return object.name === listName;});
   res.sendStatus(204);
 });
 
