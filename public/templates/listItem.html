@@ -1,0 +1,15 @@
+<div class="accordion-group">
+    <div class="accordion-heading list-group-item list-group-item-success">
+      <a class="accordion-toggle" data-toggle="collapse" aria-expanded="false" data-parent="#accordion2" href="#collapseOne">
+          {{name}} <button class="join-button" id={{name}}>Join</button><span class="badge">{{people.length}}</span>
+      </a>
+    </div>
+    <div id="collapseOne" class="accordion-body collapse in">
+      <div class="accordion-inner">
+          <ul>
+          {{#each people}}
+          <li>{{this}}</li>
+          {{/each}}
+      </div>
+    </div>
+  </div>

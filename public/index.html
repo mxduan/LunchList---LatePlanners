@@ -14,55 +14,38 @@
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-	<script src="scripts/backend-talk.js">
-	</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
+    <script src="scripts/backend-talk.js"></script>
+    <script src="scripts/templates.js"></script>
+    <script src="scripts/rendering.js"></script>
 	<script type="text/javascript">
-        $(document).ready(function() {
-			getList(function(data){
-				console.log(data)
-				var index = 0;
-				var classes = ['list-group-item-warning','list-group-item-success','list-group-item-info','list-group-item-danger'];
-				var listContainer = $('#accordion2');
+        var fetchAndLoad = function() {
+            var listContainer = $('#accordion2');
+            listContainer.html('');
+            getList(function(data) {
+                    renderList(listContainer, data);
+                    console.log($('.join-button'));
+                $('.join-button').click(function(event) {
+                    event.preventDefault();
+                    addToSublist(event.target.parent().attr(id), 'me', function() {
+                        fetchAndLoad();
+                        });
+                    });
+                    });
+        };
 
-				for( var key in data)
-				{					
-						var defaultDiv = $('<div>');
-						defaultDiv.addClass("accordion-group");
-						var listItem = $('<div>');
-						listItem.addClass(classes[(index+1)%4]);
-						listItem.addClass('list-group-item');
-						listItem.attr('id',data[key].name);						
-						var listName = $('<a>');
-						listName.html(data[key].name);
-						listName.attr('data-toggle','collapse');
-						listName.attr('href','#'+data[key].name+'people'); 
-						listName.attr('data-parent','#accordion2');
-						listName.addClass("accordion-toggle");
- 						var spanElement = $('<span>');
-						spanElement.addClass("badge");
-						spanElement.html( data[key].people.length);
-						var peopleDiv = $('<div>');
-						peopleDiv.attr('id',data[key].name+'people');
-						peopleDiv.addClass('accordion-body collapse in');
-						var peopleList = $('<ul>');
-						peopleList.addClass('list-group-item');
-						peopleList.addClass(classes[index%4]);	
-						for (var peoples in data[key].people)
-						{
-							var everyPerson = $('<li>');
-							everyPerson.html(data[key].people[peoples]);
-							peopleList.append(everyPerson);
-						}
-						peopleDiv.append(peopleList);
-						listItem.append(listName);
-						listItem.append(spanElement);
-						index = index + 1;
-						defaultDiv.append(listItem);
-						defaultDiv.append(peopleDiv);
-						listContainer.append(defaultDiv);
-				}	
-				});
+        $(document).ready(function() {
+                $('#inputdefault').keyup(function(event) {
+                    if(event.keyCode == 13) {
+                    event.preventDefault();
+                    addSublist($('#inputdefault').val(), function(data) {
+                        fetchAndLoad();
+                        });
+                    }
+                    });
+                fetchAndLoad();
 		});
 	</script> 
   </head>
@@ -71,12 +54,10 @@
 	<div class="panel panel-default" id="base-panel">
 		<div class="panel-heading">Lunch Recommendations</div>
 		<div class="panel-heading" align="center"> 		
-			<form role="form">
-				<div class="form-group">
-				<label for="inputdefault"></label>
-				<input class="form-control" id="inputdefault" type="text">
-				</div>
-			</form>
+        <div class="form-group">
+        <label for="inputdefault"></label>
+        <input class="form-control" id="inputdefault" type="text">
+        </div>
 		</div> 
 		<div class="accordion" id="accordion2"></div>
 	</div>
