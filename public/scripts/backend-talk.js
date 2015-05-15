@@ -7,20 +7,20 @@ var addSublist = function(listName, success, error) {
   });
 };
 
-var removeSublist = function(listName, success, error) {
+var addToSublist = function(listName, entryName, success, error) {
   $.ajax({
-    method: 'DELETE',
-    url: 'list/' + listName,
+    method: 'POST',
+    url: 'list/' + listName + '/' + entryName,
     success: success,
     error: error
   });
 };
 
-var addToSublist = function(listName, entryName, success, error) {
+var deleteSublist = function(listName, success, error) {
   $.ajax({
-    method: 'POST',
-    url: 'list/' + listName + '/' + entryName,
-    success: sucess,
+    method: 'DELETE',
+    url: 'list/' + listName,
+    success: success,
     error: error
   });
 };
