@@ -55,12 +55,12 @@ app.delete('/list/:listName/:entryName', function (req, res) { //deletes a perso
   //res.send('You want to delete who now? You're not a good person.);
   var listName = req.params.listName;
   var entryName = req.params.entryName;
-  var listNames = _.pluck(lists, 'name');
-  var listNameIndexInLists = _.indexOf(listNames, listName);		
-  if(listNameIndexInLists !== -1 )
-  {
-  	 lists[listNameIndexInLists].people.splice(_.indexOf(lists[listNameIndexInLists].people, entryName),-1); //TODO more error checking
-  }
+
+  // name should be unique, so subList.length should be 1
+  var subList = _.where(lists, {name: listName});
+  console.log(subList);
+  subList[0].people = _.reject(subList[0].people, function(person) { return person === entryName; });
+
   res.sendStatus(204); //deletion complete
 });
 
