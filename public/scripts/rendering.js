@@ -1,5 +1,4 @@
-
-var renderList = function(listBox, list) {
+var renderList = function(listBox, list, fetchAndLoad) {
   $.ajax({
     method: 'GET',
     url: 'templates/listItem.html',
@@ -9,6 +8,7 @@ var renderList = function(listBox, list) {
     _.each(list, function(entry)
       {
        listBox.append(template(entry));
+       joinButtonSetup($('#' + entry.name), fetchAndLoad)
       });
 
   }});

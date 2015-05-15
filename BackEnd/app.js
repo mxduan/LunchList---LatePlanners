@@ -26,29 +26,32 @@ app.get('/list/:listName', function (req, res) {
 app.post('/list/:listName/:entryName', function (req, res) {
   var personName = req.params.entryName;
   var restaurantName = req.params.listName;
-  var restaurants = _.pluck(lists, 'name');
-  var restaurantLocationInList = _.indexOf(restaurants, restaurantName);		
-  if(restaurantLocationInList === -1 )
-  {
+
+  var list = _.findWhere(lists, {name: restaurantName});
+  if (!list) {
   	var obj = {};
 	obj.name = restaurantName;
   	obj.people = [personName];
   	lists.push(obj);
-  	res.sendStatus(200);
-  	return;
+  } else {
+      if (!_.contains(list.people, personName)) {
+          list.people.push(personName);
+      }
   }
-
-  lists[restaurantLocationInList].people.push(personName);
-  res.sendStatus(200);
+  	res.sendStatus(200);
 });
 
-app.post('/list/:entryName', function (req, res) {
-  var obj = {};
-  obj.name = req.params.entryName;
-  obj.people = [];
-  lists.push(obj);
+app.post('/list/:listName', function (req, res) {
+    var listName = req.params.listName;
+    var list = _.findWhere(lists, {name: listName});
+    if (!list) {
+        var obj = {};
+        obj.name = req.params.listName;
+        obj.people = [];
+        lists.push(obj);
+    }
 
-  res.sendStatus(200);
+    res.sendStatus(200);
 });
 
 app.delete('/list/:listName/:entryName', function (req, res) { //deletes a persons name
@@ -57,8 +60,9 @@ app.delete('/list/:listName/:entryName', function (req, res) { //deletes a perso
   var entryName = req.params.entryName;
 
   // name should be unique, so subList.length should be 1
-  var subList = _.where(lists, {name: listName});
-  subList[0].people = _.reject(subList[0].people, function(person) { return person === entryName; });
+  var subList = _.findWhere(lists, {name: listName});
+  if (subList)
+      subList.people = _.reject(subList.people, function(person) { return person === entryName; });
 
   res.sendStatus(204); //deletion complete
 });

@@ -18,34 +18,20 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
     <script src="scripts/backend-talk.js"></script>
-    <script src="scripts/templates.js"></script>
     <script src="scripts/rendering.js"></script>
+    <script src="scripts/eventHooks.js"></script>
 	<script type="text/javascript">
         var fetchAndLoad = function() {
             var listContainer = $('#accordion2');
             listContainer.html('');
             getList(function(data) {
-                    renderList(listContainer, data);
-                    console.log($('.join-button'));
-                $('.join-button').click(function(event) {
-                    event.preventDefault();
-                    addToSublist(event.target.parent().attr(id), 'me', function() {
-                        fetchAndLoad();
-                        });
-                    });
-                    });
+                    renderList(listContainer, data, fetchAndLoad);
+            });
         };
 
         $(document).ready(function() {
-                $('#inputdefault').keyup(function(event) {
-                    if(event.keyCode == 13) {
-                    event.preventDefault();
-                    addSublist($('#inputdefault').val(), function(data) {
-                        fetchAndLoad();
-                        });
-                    }
-                    });
                 fetchAndLoad();
+                inputFieldSetup($('#add-field'), fetchAndLoad)  
 		});
 	</script> 
   </head>
@@ -55,8 +41,7 @@
 		<div class="panel-heading">Lunch Recommendations</div>
 		<div class="panel-heading" align="center"> 		
         <div class="form-group">
-        <label for="inputdefault"></label>
-        <input class="form-control" id="inputdefault" type="text">
+        <input class="form-control" id="add-field" type="text">
         </div>
 		</div> 
 		<div class="accordion" id="accordion2"></div>
