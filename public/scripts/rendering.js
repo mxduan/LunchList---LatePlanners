@@ -8,6 +8,7 @@ var renderList = function(listBox, list, fetchAndLoad) {
     _.each(list, function(entry)
       {
        listBox.append(template(entry));
+       listBox.find('#collapse' + entry.name);
        joinButtonSetup($('#' + entry.name), fetchAndLoad)
       });
 
