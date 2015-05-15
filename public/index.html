@@ -1,14 +1,91 @@
-<html>
-<head>
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="scripts/backend-talk.js"></script>
-<script type="javascript">
-document.onload = function() {
-    var foo = getList;
-};
-</script>
-</head>
-<body>
+<!DOCTYPE html>
+<html lang="en" >
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
 
-</body>
+    <title>Starter Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="scripts/backend-talk.js">
+	</script>
+	<script type="text/javascript">
+        $(document).ready(function() {
+			getList(function(data){
+				console.log(data)
+				var index = 0;
+				var classes = ['list-group-item-warning','list-group-item-success','list-group-item-info','list-group-item-danger'];
+				var listContainer = $('#accordion2');
+
+				for( var key in data)
+				{					
+						var defaultDiv = $('<div>');
+						defaultDiv.addClass("accordion-group");
+						var listItem = $('<div>');
+						listItem.addClass(classes[(index+1)%4]);
+						listItem.addClass('list-group-item');
+						listItem.attr('id',data[key].name);						
+						var listName = $('<a>');
+						listName.html(data[key].name);
+						listName.attr('data-toggle','collapse');
+						listName.attr('href','#'+data[key].name+'people'); 
+						listName.attr('data-parent','#accordion2');
+						listName.addClass("accordion-toggle");
+ 						var spanElement = $('<span>');
+						spanElement.addClass("badge");
+						spanElement.html( data[key].people.length);
+						var peopleDiv = $('<div>');
+						peopleDiv.attr('id',data[key].name+'people');
+						peopleDiv.addClass('accordion-body collapse in');
+						var peopleList = $('<ul>');
+						peopleList.addClass('list-group-item');
+						peopleList.addClass(classes[index%4]);	
+						for (var peoples in data[key].people)
+						{
+							var everyPerson = $('<li>');
+							everyPerson.html(data[key].people[peoples]);
+							peopleList.append(everyPerson);
+						}
+						peopleDiv.append(peopleList);
+						listItem.append(listName);
+						listItem.append(spanElement);
+						index = index + 1;
+						defaultDiv.append(listItem);
+						defaultDiv.append(peopleDiv);
+						listContainer.append(defaultDiv);
+				}	
+				});
+		});
+	</script> 
+  </head>
+
+  <body >
+	<div class="panel panel-default" id="base-panel">
+		<div class="panel-heading">Lunch Recommendations</div>
+		<div class="panel-heading" align="center"> 		
+			<form role="form">
+				<div class="form-group">
+				<label for="inputdefault"></label>
+				<input class="form-control" id="inputdefault" type="text">
+				</div>
+			</form>
+		</div> 
+		<div class="accordion" id="accordion2"></div>
+	</div>
+
+	
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  </body>
 </html>
