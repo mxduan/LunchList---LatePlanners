@@ -58,7 +58,6 @@ app.delete('/list/:listName/:entryName', function (req, res) { //deletes a perso
 
   // name should be unique, so subList.length should be 1
   var subList = _.where(lists, {name: listName});
-  console.log(subList);
   subList[0].people = _.reject(subList[0].people, function(person) { return person === entryName; });
 
   res.sendStatus(204); //deletion complete
@@ -66,7 +65,6 @@ app.delete('/list/:listName/:entryName', function (req, res) { //deletes a perso
 
 app.delete('/list/:subList', function (req, res){ //deletes an entire sublist
   var listName = req.params.subList;
-  console.log("we're about to do it");
   lists = _.reject(lists, function(object){return object.name === listName;});
   res.sendStatus(204);
 });
