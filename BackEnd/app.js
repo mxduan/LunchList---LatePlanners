@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var _ = require('underscore');
 
 var app = express();
 app.use(bodyParser.json());
@@ -16,21 +17,63 @@ app.get('/list', function (req, res) {
   res.json(lists);
 });
 
-// accept POST request on the homepage
-/**app.post('/list/*', function (req, res) {
-	var obj = JSON.parse(lists);
-	obj[req.data].push(req.data);
-	lists = JSON.stringify(obj);
- 	res.send('Got a POST request');
-});*/
+app.get('/list/:listName', function (req, res) {
+  var listName = req.params.listName;
+  res.json(lists.listName);
+});
 
-app.post('/list', function (req, res) {
+// accept POST request on the homepage
+app.post('/list/:listName/:entryName', function (req, res) {
+  var personName = req.params.entryName;
+  var restaurantName = req.params.listName;
+  var restaurants = _.pluck(lists, 'name');
+  var restaurantLocationInList = _.indexOf(restaurants, restaurantName);		
+  if(restaurantLocationInList === -1 )
+  {
+  	var obj = {};
+	obj.name = restaurantName;
+  	obj.people = [personName];
+  	lists.push(obj);
+  	res.sendStatus(200);
+  	return;
+  }
+
+  lists[restaurantLocationInList].people.push(personName);
+  res.sendStatus(200);
+});
+
+app.post('/list/:entryName', function (req, res) {
   var obj = {};
-  obj.name = req.body.name;
+  obj.name = req.params.entryName;
   obj.people = [];
   lists.push(obj);
 
   res.sendStatus(200);
+});
+
+app.delete('/list/:listName/:entryName', function (req, res) { //deletes a persons name
+  //res.send('You want to delete who now? You're not a good person.);
+  var listName = req.params.listName;
+  var entryName = req.params.entryName;
+
+  // name should be unique, so subList.length should be 1
+  var subList = _.where(lists, {name: listName});
+  console.log(subList);
+  subList[0].people = _.reject(subList[0].people, function(person) { return person === entryName; });
+
+  res.sendStatus(204); //deletion complete
+});
+
+app.delete('/list/:subList', function (req, res){ //deletes an entire sublist
+  var listName = req.params.listName;
+  var entryName = req.params.entryName;
+  var listNames = _.pluck(lists, 'name');
+  var listNameIndexInLists = _.indexOf(listNames, listName);		
+  if(listNameIndexInLists !== -1 )
+  {
+  	 lists.splice(listNameIndexInLists,-1);
+  }
+  res.sendStatus(204);
 });
 
 var server = app.listen(3000, function () {
